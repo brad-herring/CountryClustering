@@ -1,18 +1,40 @@
 from __future__ import absolute_import, division, print_function, unicode_literals
 
 import pandas as pd
-import tensorflow as tf
-from sklearn import preprocessing
-from numpy import nan
+from kneed import KneeLocator
 from matplotlib import pyplot as plt
+from sklearn.preprocessing import MinMaxScaler
+from sklearn.cluster import KMeans
+from sklearn.metrics import silhouette_score
 
 # Create training and testing datasets
 train = pd.read_csv(r'C:\Users\Admin\Desktop\Programming Applications and Projects\Datasets\Country-data.csv', header=0)
 
 test = pd.read_csv(r'C:\Users\Admin\Desktop\Programming Applications and Projects\Datasets\Country-data.csv', header=0)
 
-plt.scatter(train['country'], train['gdpp'], s=0.5)
-plt.show()
+# Create training and testing targets
+train_target = train.pop('country')
+test_target = test.pop('country')
 
-# Use elbow method to determine number of k-means clusters
-# Use sklearn clustering tools to carry out the study
+# Scale (standardize) the data
+mms = MinMaxScaler()
+mms.fit(train)
+train_transformed = mms.transform(train)
+
+# Instantiate the KMeans class
+kmeans = KMeans(
+    init="random",
+    n_clusters=3,
+    n_init=10,
+    max_iter=300,
+    random_state=42
+)
+
+# Perform the test
+kmeans.fit(train_transformed)
+
+
+print(train_target[0])
+print(train_target[159])
+print(kmeans.labels_[0])
+print(kmeans.labels_[159])

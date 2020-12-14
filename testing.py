@@ -1,10 +1,12 @@
 from __future__ import absolute_import, division, print_function, unicode_literals
 
 import pandas as pd
-from numpy import nan
+from kneed import KneeLocator
 from matplotlib import pyplot as plt
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.cluster import KMeans
+from sklearn.datasets import make_blobs
+from sklearn.metrics import silhouette_score
 
 
 # Create training and testing datasets
@@ -16,7 +18,7 @@ test = pd.read_csv(r'C:\Users\Admin\Desktop\Programming Applications and Project
 train_target = train.pop('country')
 test_target = test.pop('country')
 
-# Scale the data
+# Scale (standardize) the data
 mms = MinMaxScaler()
 mms.fit(train)
 train_transformed = mms.transform(train)
@@ -36,3 +38,6 @@ plt.xlabel('k')
 plt.ylabel('Sum_of_squared_distances')
 plt.title('Elbow Method For Optimal k')
 plt.show()
+
+# Optimum number of k clusters: 3 (from graph above)
+# Try using silhouette coefficient next
