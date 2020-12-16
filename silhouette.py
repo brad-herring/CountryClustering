@@ -23,16 +23,17 @@ train_transformed = mms.transform(train)
 
 # For each k value, we will initialise k-means and use the inertia attribute to identify the sum of squared distances
 # of samples to the nearest cluster centre.
-Sum_of_squared_distances = []
-K = range(1,15)
+silhouette_coefficients = []
+K = range(2,15)
 for k in K:
     km = KMeans(n_clusters=k)
     km = km.fit(train_transformed)
-    Sum_of_squared_distances.append(km.inertia_)
+    score = silhouette_score(train_transformed, km.labels_)
+    silhouette_coefficients.append(score)
 
-# Elbow graph
-plt.plot(K, Sum_of_squared_distances, 'bx-')
+# Silhouette graph
+plt.plot(K, silhouette_coefficients, 'bx-')
 plt.xlabel('k')
-plt.ylabel('Sum_of_squared_distances')
-plt.title('Elbow Method For Optimal k')
+plt.ylabel('Silhouette Coefficient')
+plt.title('Silhouette Coefficient For Optimal k')
 plt.show()
