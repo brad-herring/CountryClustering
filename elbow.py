@@ -5,7 +5,6 @@ from matplotlib import pyplot as plt
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.cluster import KMeans
 
-
 # Create training and testing datasets
 train = pd.read_csv(r'C:\Users\Admin\Desktop\Programming Applications and Projects\Datasets\Country-data.csv', header=0)
 
