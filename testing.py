@@ -5,9 +5,7 @@ from kneed import KneeLocator
 from matplotlib import pyplot as plt
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.cluster import KMeans
-from sklearn.datasets import make_blobs
 from sklearn.metrics import silhouette_score
-
 
 # Create training and testing datasets
 train = pd.read_csv(r'C:\Users\Admin\Desktop\Programming Applications and Projects\Datasets\Country-data.csv', header=0)
@@ -23,21 +21,30 @@ mms = MinMaxScaler()
 mms.fit(train)
 train_transformed = mms.transform(train)
 
-# For each k value, we will initialise k-means and use the inertia attribute to identify the sum of squared distances
-# of samples to the nearest cluster centre.
-Sum_of_squared_distances = []
-K = range(1,15)
-for k in K:
-    km = KMeans(n_clusters=k)
-    km = km.fit(train_transformed)
-    Sum_of_squared_distances.append(km.inertia_)
+# Instantiate the KMeans class
+kmeans = KMeans(
+    init="random",
+    n_clusters=4,
+    n_init=10,
+    max_iter=300,
+    random_state=42
+)
 
-# Elbow graph
-plt.plot(K, Sum_of_squared_distances, 'bx-')
-plt.xlabel('k')
-plt.ylabel('Sum_of_squared_distances')
-plt.title('Elbow Method For Optimal k')
-plt.show()
+# Perform the test
+kmeans.fit(train_transformed)
 
-# Optimum number of k clusters: 3 (from graph above)
-# Try using silhouette coefficient next
+# Convert kmeans.labels_ numpy array to Pandas dataframe
+cluster_df = pd.DataFrame(kmeans.labels_, columns=['cluster'])
+
+# Check the code
+print(train_target[0])
+print(kmeans.labels_[0])
+print(train_target[159])
+print(kmeans.labels_[159])
+print(str(train_target[0]) + ' - Cluster: ' + str(cluster_df['cluster'][0]))
+print(str(train_target[159]) + ' - Cluster: ' + str(cluster_df['cluster'][159]))
+
+
+for item in cluster_df['cluster']:
+    index = cluster_df[cluster_df['cluster'] == 2].index[0]
+    print(train_target[index])

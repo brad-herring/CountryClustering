@@ -35,6 +35,17 @@ kmeans.fit(train_transformed)
 
 
 print(train_target[0])
-print(train_target[159])
 print(kmeans.labels_[0])
+print(train_target[159])
 print(kmeans.labels_[159])
+print(train_target[154])
+print(kmeans.labels_[154])
+print(train_target[38])
+print(kmeans.labels_[38])
+print(train_target[46])
+print(kmeans.labels_[46])
+print(train_target[132])
+print(kmeans.labels_[132])
+
+# Best -> Worst: 0, 2, 1
+
